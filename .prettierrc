@@ -1,0 +1,7 @@
+{
+  "singleQuote": true,     // Dùng dấu nháy đơn ' thay vì nháy kép "
+  "trailingComma": "all",  // Luôn có dấu phẩy ở cuối phần tử cuối cùng
+  "tabWidth": 2,           // Tab = 2 space
+  "semi": true,            // Luôn có dấu chấm phẩy cuối câu lệnh
+  "printWidth": 120        // Giới hạn 120 ký tự mỗi dòng
+}

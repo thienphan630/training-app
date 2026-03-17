@@ -1,0 +1,14 @@
+# Áp dụng cho toàn bộ project
+root = true
+
+[*]
+charset = utf-8                # Encoding tiếng Việt
+indent_style = space           # Dùng Space, không dùng Tab
+indent_size = 2                # Mỗi cấp thụt vào = 2 space
+end_of_line = lf               # Kiểu xuống dòng chuẩn (Linux/Mac)
+insert_final_newline = true    # Luôn có 1 dòng trống cuối file
+trim_trailing_whitespace = true # Xóa khoảng trắng thừa cuối dòng
+
+# Riêng file Markdown thì giữ khoảng trắng cuối dòng
+[*.md]
+trim_trailing_whitespace = false
