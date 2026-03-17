@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users') // Tất cả API trong class này sẽ có prefix "/users"
 export class UsersController {
@@ -38,7 +39,7 @@ export class UsersController {
      * @Body() lấy dữ liệu từ Request Body (JSON)
      */
     @Post()
-    createUser(@Body() body: { name: string; email: string }) {
-        return this.usersService.create(body.name, body.email);
+    createUser(@Body() createUserDTO: CreateUserDto) {
+        return this.usersService.create(createUserDTO.name, createUserDTO.email);
     }
 }
