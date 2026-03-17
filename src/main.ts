@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // Tự động xóa các field không có trong DTO
     forbidNonWhitelisted: true, // Nếu user gửi các field lạ => Báo lỗi
-    transform: true, // Tự chuyển kiểu dữ liệu string sang number
+    transform: false, // Tắt tự chuyển kiểu dữ liệu string sang number
   }));
 
   await app.listen(process.env.PORT ?? 3000);

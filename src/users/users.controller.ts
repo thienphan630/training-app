@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
 
 @Controller('users') // Tất cả API trong class này sẽ có prefix "/users"
 export class UsersController {
@@ -28,8 +29,8 @@ export class UsersController {
      * @Param('id') lấy giá trị từ URL
      */
     @Get(':id')
-    getUserById(@Param('id') id: string) {
-        return this.usersService.findOne(+id) // +id chuyển string -> number
+    getUserById(@Param('id', ParsePositiveIntPipe) id: number) {
+        return this.usersService.findOne(id)
     }
 
 
