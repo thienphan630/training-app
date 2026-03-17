@@ -1,0 +1,44 @@
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { UsersService } from './users.service';
+
+@Controller('users') // Tất cả API trong class này sẽ có prefix "/users"
+export class UsersController {
+
+    /**
+     * Constructor Injection:
+     * NestJS tự động tạo instance của UsersService
+     * và "tiêm" (inject) vào Controller.
+     * Bạn KHÔNG cần viết: this.usersService = new UsersService()
+     */
+    constructor(private readonly usersService: UsersService) { }
+
+    /**
+     * API: GET /users
+     * Trả về danh sách tất cả users
+     */
+    @Get()
+    getAllUsers() {
+        return this.usersService.findAll();
+    }
+
+    /**
+     * API: GET /users/:id
+     * Ví dụ: GET /users/1 → trả về user có id = 1
+     * @Param('id') lấy giá trị từ URL
+     */
+    @Get(':id')
+    getUserById(@Param('id') id: string) {
+        return this.usersService.findOne(+id) // +id chuyển string -> number
+    }
+
+
+    /**
+     * API: POST /users
+     * Tạo user mới. Client gửi dữ liệu trong Body.
+     * @Body() lấy dữ liệu từ Request Body (JSON)
+     */
+    @Post()
+    createUser(@Body() body: { name: string; email: string }) {
+        return this.usersService.create(body.name, body.email);
+    }
+}
