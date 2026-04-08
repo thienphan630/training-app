@@ -27,7 +27,7 @@ import { MongooseModule } from '@nestjs/mongoose';
          * ⚠️ CHỈ DÙNG CHO MÔI TRƯỜNG DEV/TRAINING.
          * ⛔ KHÔNG DÙNG CHO PRODUCTION (vì có thể làm mất dữ liệu).
          */
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService]
     }),
