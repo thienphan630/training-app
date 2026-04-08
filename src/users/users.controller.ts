@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
@@ -30,7 +30,7 @@ export class UsersController {
      */
     @Get(':id')
     getUserById(@Param('id', ParsePositiveIntPipe) id: number) {
-        return this.usersService.findOne(id)
+        return this.usersService.findOneUser(id);
     }
 
 
@@ -41,6 +41,11 @@ export class UsersController {
      */
     @Post()
     createUser(@Body() createUserDTO: CreateUserDto) {
-        return this.usersService.create(createUserDTO.name, createUserDTO.email);
+        return this.usersService.create(createUserDTO);
+    }
+
+    @Put(':id')
+    updateUser(@Param('id', ParsePositiveIntPipe) id: number, @Body() updateUserDto: CreateUserDto) {
+        return this.usersService.update(id, updateUserDto);
     }
 }

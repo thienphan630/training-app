@@ -18,5 +18,5 @@ export class CreateUserDto {
     @IsOptional()
     @IsInt({ message: 'Age phải là số nguyên' })
     @Min(16, { message: 'Độ tuổi tối thiểu là 16 tuổi' })
-    age?: string;
+    age?: number;
 }
