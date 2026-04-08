@@ -1,0 +1,30 @@
+services:
+  # Tên service của chúng ta là "mysql_db"
+  mysql_db:
+    image: mysql:8.0               # Sử dụng MySQL version 8.0 ổn định
+    container_name: training-mysql # Tên container sẽ hiển thị trong Docker Desktop
+    restart: always                # Tự khởi động lại nếu bị crash
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Mật khẩu user 'root'
+      MYSQL_DATABASE: training_db        # Tên database sẽ được tạo tự động
+      MYSQL_USER: admin                  # Tạo thêm user thường (nên dùng user này)
+      MYSQL_PASSWORD: password123        # Mật khẩu của user 'admin'
+    ports:
+      - "3306:3306"  # Ánh xạ port 3306 của container ra port 3306 của máy thật
+    volumes:
+      - mysql_data:/var/lib/mysql        # Lưu dữ liệu ra ngoài để không bị mất khi xóa container
+
+  mongo_db:
+    image: mongo:6.0
+    container_name: training-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mysql_data:  # Định nghĩa nơi lưu trữ
+  mongo_data:
