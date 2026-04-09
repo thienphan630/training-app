@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { Post } from "../../posts/entities/post.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -10,7 +11,9 @@ export class User {
 
     @Column({ length: 150, unique: true }) email: string;
 
-    @Column() password: string;
+    @Column({ select: false })
+    @Exclude()
+    password: string;
 
     @Column({ default: 'user' }) role: string;
 
