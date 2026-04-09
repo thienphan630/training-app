@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Param, Body, Put, Query } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Query, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
 import { ListUserDto } from './dto/list-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 
 @Controller('users') // Tất cả API trong class này sẽ có prefix "/users"
 export class UsersController {
@@ -22,6 +24,12 @@ export class UsersController {
     @Get()
     getAllUsers(@Query() query: ListUserDto) {
         return this.usersService.findAll(query);
+    }
+
+    @UseGuards(AuthGuard('jwt'))    // API này yêu cầu phải Login
+    @Get('profile')
+    getProfile(@CurrentUser() user: any) {
+        return user;    // req.user có được nhờ JwtStrategy
     }
 
     /**
