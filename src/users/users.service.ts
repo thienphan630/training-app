@@ -5,6 +5,8 @@ import { Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseUserDto } from './dto/response-user.dto';
 import { ListUserDto } from './dto/list-user.dto';
+import * as bcrypt from 'bcrypt';
+
 
 @Injectable() // Đánh dấu class này có thể được "inject" vào nơi khác
 export class UsersService {
@@ -43,6 +45,12 @@ export class UsersService {
     return ResponseUserDto.fromEntity(user);
   }
 
+  async findOneByEmail(email: string) {
+    return this.userRepo.createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .addSelect('user.password').getOne();
+  }
+
   /** Tìm user theo ID */
   async findOne(id: number) {
     const user = await this.userRepo.findOneBy({ id });
@@ -60,7 +68,10 @@ export class UsersService {
 
   /** Tạo user mới */
   async create(dto: CreateUserDto) {
-    const newUser = this.userRepo.create(dto);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(dto.password, salt)
+
+    const newUser = this.userRepo.create({ ...dto, password: hashedPassword });
     return this.userRepo.save(newUser);
   }
 
