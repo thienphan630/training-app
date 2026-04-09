@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Param, Body, Put } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
+import { ListUserDto } from './dto/list-user.dto';
 
 @Controller('users') // Tất cả API trong class này sẽ có prefix "/users"
 export class UsersController {
@@ -19,8 +20,8 @@ export class UsersController {
      * Trả về danh sách tất cả users
      */
     @Get()
-    getAllUsers() {
-        return this.usersService.findAll();
+    getAllUsers(@Query() query: ListUserDto) {
+        return this.usersService.findAll(query);
     }
 
     /**
