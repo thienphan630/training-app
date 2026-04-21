@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Param, Body, Put, Query, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Query, UseGuards, Request, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
 import { ListUserDto } from './dto/list-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRole } from './entities/role.enum';
 
 @Controller('users') // Tất cả API trong class này sẽ có prefix "/users"
 export class UsersController {
@@ -56,5 +59,12 @@ export class UsersController {
     @Put(':id')
     updateUser(@Param('id', ParsePositiveIntPipe) id: number, @Body() updateUserDto: CreateUserDto) {
         return this.usersService.update(id, updateUserDto);
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRole.admin)
+    remove(@Param('id') id: number) {
+        return this.usersService.remove(id);
     }
 }
