@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadController } from './upload/upload.controller';
+import { MinioService } from './common/services/minio.service';
 
 @Module({
   imports: [
@@ -42,7 +44,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     PostsModule,
     AuthModule],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UploadController],
+  providers: [AppService, MinioService],
 })
 export class AppModule { }

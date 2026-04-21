@@ -25,6 +25,18 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000" # API Port
+      - "9001:9001" # Console UI Port
+    environment:
+      MINIO_ROOT_USER: "vnpt_admin"
+      MINIO_ROOT_PASSWORD: "vnpt_password_secure"
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
 volumes:
   mysql_data:  # Định nghĩa nơi lưu trữ
   mongo_data:
