@@ -15,6 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
       secret: process.env.JWT_SECRET || 'secretKey',
       signOptions: { expiresIn: '60m' }, //token sống 60 phút
     })
-  ]
+  ],
+  exports: [JwtModule]
 })
 export class AuthModule { }

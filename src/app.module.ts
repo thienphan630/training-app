@@ -9,6 +9,7 @@ import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadController } from './upload/upload.controller';
 import { MinioService } from './common/services/minio.service';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { MinioService } from './common/services/minio.service';
     }),
     UsersModule,
     PostsModule,
-    AuthModule],
+    AuthModule,
+    ChatModule],
   controllers: [AppController, UploadController],
   providers: [AppService, MinioService],
 })

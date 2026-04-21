@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head><title>WebSocket Test</title></head>
+<body>
+  <h2>WebSocket Gateway Test</h2>
+  <div id="status" style="color: gray;">Đang kết nối...</div>
+  <div id="log" style="margin-top: 20px; font-family: monospace;"></div>
+
+  <button onclick="sendPing()">🏓 Gửi PING</button>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const log = (msg) => {
+      document.getElementById('log').innerHTML += msg + '<br>';
+    };
+
+    // Kết nối KHÔNG có Auth (bỏ auth nếu Gateway chưa yêu cầu)
+    const socket = io('http://localhost:3000/chat', {
+      auth: { token: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFubmFtQHZucHQudm4iLCJzdWIiOjUsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc2NzkyMzQ0LCJleHAiOjE3NzY3OTU5NDR9.GsSnJ99oiY_t-aQXl-o3KFHJoq1h3kGvdm3nxILHYOY' },
+    });
+
+    socket.on('connect', () => {
+      document.getElementById('status').innerHTML = '🟢 Connected: ' + socket.id;
+      document.getElementById('status').style.color = 'green';
+    });
+
+    socket.on('welcome', (data) => {
+      log('📨 [welcome] ' + JSON.stringify(data));
+    });
+
+    socket.on('pong', (data) => {
+      log('🏓 [pong] ' + JSON.stringify(data));
+    });
+
+    socket.on('error', (err) => {
+      log('❌ [error] ' + JSON.stringify(err));
+    });
+
+    socket.on('disconnect', () => {
+      document.getElementById('status').innerHTML = '🔴 Disconnected';
+      document.getElementById('status').style.color = 'red';
+    });
+
+    function sendPing() {
+      socket.emit('ping', { hello: 'world', time: Date.now() });
+      log('📤 [ping] Sent!');
+    }
+  </script>
+</body>
+</html>
